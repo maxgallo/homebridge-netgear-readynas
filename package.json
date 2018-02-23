@@ -1,11 +1,17 @@
 {
-  "name": "homebridge-netgear-readynas",
-  "version": "1.0.0",
-  "description": "Remote control of ReadyNAS with Homebridge",
-  "main": "index.js",
-  "author": "massimiliano.gallo@gmail.com",
-  "license": "MIT",
-  "devDependencies": {
-    "express": "^4.15.2"
-  }
+    "name": "homebridge-netgear-readynas",
+    "version": "1.0.0",
+    "description": "Remote control of ReadyNAS with Homebridge",
+    "main": "index.js",
+    "author": "massimiliano.gallo@gmail.com",
+    "license": "MIT",
+    "devDependencies": {
+        "express": "^4.15.2"
+    },
+    "keywords": [
+        "homebridge-plugin",
+        "netgear",
+        "readynas",
+        "nas"
+    ]
 }
