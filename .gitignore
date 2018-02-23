@@ -1,2 +1,3 @@
 scripts/donotinclude.sh
 node_modules
+*.swp

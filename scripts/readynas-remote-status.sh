@@ -4,4 +4,4 @@ cd "$(dirname "$0")"
 
 source ./donotinclude.sh
 
-wakeonlan $mac
+ping -c1 $host > /dev/null && echo "on" || echo "off"

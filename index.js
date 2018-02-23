@@ -1,52 +1,51 @@
-const spawn = require('child_process').spawn;
-const express = require('express');
+const shutdow = require('./commands/shutdown');
+const wakeup = require('./commands/wakeup');
+const status = require('./commands/status');
+const Service, Characteristic;
 
-
-function execute(bashScript) {
-
-	//const ls = spawn('ls', ['-lh', '/usr']);
-
-	const command = spawn(bashScript);
-
-	command.stdout.on('data', (data) => {
-	  console.log(`stdout: ${data}`);
-	});
-
-	command.stderr.on('data', (data) => {
-	  console.log(`stderr: ${data}`);
-	});
-
-	command.on('close', (code) => {
-	  console.log(`child process exited with code ${code}`);
-	});
+function mySwitch(log, config) {
+    this.log = log;
+    //this.getUrl = url.parse(config['getUrl']);
+    //this.postUrl = url.parse(config['postUrl']);
 }
 
+mySwitch.prototype = {
+    getServices: function () {
+        let informationService = new Service.AccessoryInformation();
+        informationService
+            .setCharacteristic(Characteristic.Manufacturer, "Netgear")
+            .setCharacteristic(Characteristic.Model, "ReadyNAS")
+            .setCharacteristic(Characteristic.SerialNumber, "123-456-789");
 
-function shutdownNAS() {
-	const log = `${new Date().toISOString()} - shutdown!`;
-	console.log(log);
-	execute('./scripts/readynas-remote-shutdown.sh');
+        let switchService = new Service.Switch("ReadyNAS");
+        switchService
+            .getCharacteristic(Characteristic.On)
+            .on('get', this.getSwitchOnCharacteristic.bind(this))
+            .on('set', this.setSwitchOnCharacteristic.bind(this));
+
+        this.informationService = informationService;
+        this.switchService = switchService;
+        return [informationService, switchService];
+    },
+    getSwitchOnCharacteristic: function (next) {
+        const nasStatus = status();
+        next(null, nasStatus);
+    },
+    setSwitchOnCharacteristic: function (on, next) {
+        if (on) {
+            wakeup();
+            return next();
+        }
+
+        shutdow();
+        next();
+    }
+};
+
+function setup(homebridge) {
+    Service = homebridge.hap.Service;
+    Characteristic = homebridge.hap.Characteristic;
+    homebridge.registerAccessory("switch-plugin", "ReadyNasSwitch", mySwitch);
 }
 
-function wakeUpNAS() {
-	const log = `${new Date().toISOString()} - wake up!`;
-	console.log(log);
-	execute('./scripts/readynas-remote-wakeup.sh');
-}
-
-var app = express();
-
-app.get('/up', function (req, res) {
-    wakeUpNAS();
-    res.send('Waking up...');
-});
-
-app.get('/down', function (req, res) {
-    shutdownNAS();
-    res.send('Shutting down...');
-});
-
-app.listen(30000, function () {
-  console.log('Example app listening on port 3000!')
-})
-
+module.exports = setup;
