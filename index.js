@@ -8,8 +8,10 @@ function setup(homebridge) {
 
     function mySwitch(log, config) {
         this.log = log;
-        //this.getUrl = url.parse(config['getUrl']);
-        //this.postUrl = url.parse(config['postUrl']);
+        this.host = config.host;
+        this.user = config.user;
+        this.pass = config.pass;
+        this.mac = config.mac;
     }
 
     mySwitch.prototype = {
@@ -31,16 +33,16 @@ function setup(homebridge) {
             return [informationService, switchService];
         },
         getSwitchOnCharacteristic: function (next) {
-            const nasStatus = status();
+            const nasStatus = status(this.host);
             next(null, nasStatus);
         },
         setSwitchOnCharacteristic: function (on, next) {
             if (on) {
-                wakeup();
+                wakeup(this.mac);
                 return next();
             }
 
-            shutdow();
+            shutdow(this.user, this.pass, this.host);
             next();
         }
     };

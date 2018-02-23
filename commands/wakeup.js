@@ -1,9 +1,9 @@
-const execute = require('./execute');
+const { execSync } = require('child_process');
 
-function wakeup() {
-    const log = `${new Date().toISOString()} - wake up!`;
-    console.log(log);
-    execute('./scripts/readynas-remote-wakeup.sh');
+function wakeup(mac) {
+    const command = `wakeonlan ${mac}`;
+    const output = execSync(command);
+    return output.toString();
 }
 
 module.exports = wakeup;
