@@ -13,5 +13,9 @@
         "netgear",
         "readynas",
         "nas"
-    ]
+    ],
+    "engines": {
+        "homebridge": ">=0.2.5",
+        "node": ">=4.3"
+    }
 }
