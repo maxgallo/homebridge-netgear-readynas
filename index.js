@@ -10,7 +10,7 @@ function setup(homebridge) {
         this.log = log;
         this.host = config.host;
         this.user = config.user;
-        this.pass = config.pass;
+        this.password = config.password;
         this.mac = config.mac;
     }
 
@@ -42,7 +42,7 @@ function setup(homebridge) {
                 return next();
             }
 
-            shutdow(this.user, this.pass, this.host);
+            shutdow(this.user, this.password, this.host);
             next();
         }
     };
