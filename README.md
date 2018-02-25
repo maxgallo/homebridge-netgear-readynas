@@ -1,5 +1,7 @@
 # Homebridge Netgear ReadyNAS Plugin
 
+[![npm version](https://img.shields.io/npm/v/homebridge-netgear-readynas.svg)](https://www.npmjs.com/package/homebridge-netgear-readynas)
+
 This is an accessory plugin for [Homebridge](https://github.com/nfarina/homebridge) allowing to control
 Netgear ReadyNAS devices.
 
