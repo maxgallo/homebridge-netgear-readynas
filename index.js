@@ -13,6 +13,7 @@ function setup(homebridge) {
         this.password = config.password;
         this.mac = config.mac;
         this.name = config.name || "ReadyNAS";
+        this.version = config.version;
     }
 
     mySwitch.prototype = {
@@ -43,7 +44,7 @@ function setup(homebridge) {
                 return next();
             }
 
-            shutdow(this.user, this.password, this.host);
+            shutdow(this.user, this.password, this.host, this.version);
             next();
         }
     };
