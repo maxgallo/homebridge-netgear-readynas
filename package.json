@@ -5,6 +5,13 @@
     "main": "index.js",
     "author": "massimiliano.gallo@gmail.com",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/maxgallo/homebridge-netgear-readynas.git"
+    },
+    "bugs": {
+        "url": "https://github.com/maxgallo/homebridge-netgear-readynas/issues"
+    },
     "devDependencies": {
         "express": "^4.15.2"
     },

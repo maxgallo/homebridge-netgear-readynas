@@ -12,6 +12,8 @@ function setup(homebridge) {
         this.user = config.user;
         this.password = config.password;
         this.mac = config.mac;
+        this.name = config.name || "ReadyNAS";
+        this.version = config.version;
     }
 
     mySwitch.prototype = {
@@ -22,7 +24,7 @@ function setup(homebridge) {
                 .setCharacteristic(Characteristic.Model, "ReadyNAS")
                 .setCharacteristic(Characteristic.SerialNumber, "123-456-789");
 
-            let switchService = new Service.Switch("ReadyNAS");
+            let switchService = new Service.Switch(this.name);
             switchService
                 .getCharacteristic(Characteristic.On)
                 .on('get', this.getSwitchOnCharacteristic.bind(this))
@@ -42,7 +44,7 @@ function setup(homebridge) {
                 return next();
             }
 
-            shutdow(this.user, this.password, this.host);
+            shutdow(this.user, this.password, this.host, this.version);
             next();
         }
     };
